@@ -26,50 +26,70 @@ export class LLMProvider {
     try {
       console.log("🤖 Attempting generation with Gemini...");
       return await this.callGemini(prompt, systemInstruction);
-    } catch (error) {
-      console.error("⚠️ Gemini failed, triggering failover to Groq...", error);
+    } catch (error: any) {
+      console.error("⚠️ Gemini failed, triggering failover to Groq...");
+      if (error.response?.data) console.error("Gemini Error Detail:", JSON.stringify(error.response.data, null, 2));
+      
       if (this.groqApiKey) {
-        return await this.callGroq(prompt, systemInstruction);
+        try {
+          return await this.callGroq(prompt, systemInstruction);
+        } catch (groqError: any) {
+          if (groqError.response?.data) console.error("Groq Error Detail:", JSON.stringify(groqError.response.data, null, 2));
+          throw groqError;
+        }
       }
       throw error;
     }
   }
 
   private async callGemini(prompt: string, systemInstruction?: string): Promise<LLMResponse> {
-    const model = this.gemini.getGenerativeModel({ 
-      model: "gemini-1.5-pro",
-      systemInstruction: systemInstruction 
-    });
-    
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return {
-      content: response.text(),
-      provider: "gemini"
-    };
+    try {
+      const model = this.gemini.getGenerativeModel({ 
+        model: "gemini-1.5-flash", // More stable for some regions
+        systemInstruction: systemInstruction 
+      });
+      
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return {
+        content: response.text(),
+        provider: "gemini"
+      };
+    } catch (error: any) {
+      const msg = error.message || "Unknown Gemini error";
+      console.error(`❌ Gemini Call Error: ${msg}`);
+      throw error;
+    }
   }
 
   private async callGroq(prompt: string, systemInstruction?: string): Promise<LLMResponse> {
-    const response = await axios.post(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        model: "llama3-70b-8192",
-        messages: [
-          { role: "system", content: systemInstruction || "You are a senior software engineer." },
-          { role: "user", content: prompt }
-        ]
-      },
-      {
-        headers: {
-          "Authorization": `Bearer ${this.groqApiKey}`,
-          "Content-Type": "application/json"
+    try {
+      const response = await axios.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: systemInstruction || "You are a senior software engineer." },
+            { role: "user", content: prompt }
+          ]
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${this.groqApiKey}`,
+            "Content-Type": "application/json"
+          }
         }
-      }
-    );
+      );
 
-    return {
-      content: response.data.choices[0].message.content,
-      provider: "groq"
-    };
+      return {
+        content: response.data.choices[0].message.content,
+        provider: "groq"
+      };
+    } catch (error: any) {
+      const status = error.response?.status;
+      const data = error.response?.data?.error?.message || error.message || "Unknown Groq error";
+      console.error(`❌ Groq Call Error [${status}]: ${data}`);
+      throw error;
+    }
   }
 }

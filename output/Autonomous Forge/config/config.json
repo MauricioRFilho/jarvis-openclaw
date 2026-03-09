@@ -1,0 +1,43 @@
+{
+  "project": {
+    "name": "Autonomous Forge",
+    "github": {
+      "username": "MauricioOpenClaw",
+      "token": "${GITHUB_TOKEN}"
+    }
+  },
+  "agent": {
+    "name": "ClawSmith",
+    "framework": "OpenClaw",
+    "failover": {
+      "engine": "Groq",
+      "model": "Llama 3 70B"
+    }
+  },
+  "services": {
+    "github": {
+      "apiUrl": "https://api.github.com"
+    },
+    "gemini": {
+      "apiUrl": "https://api.gemini.ai",
+      "model": "Gemini 1.5 Pro"
+    }
+  },
+  "docker": {
+    "image": "node:latest",
+    "containerName": "autonomous-forge"
+  },
+  "security": {
+    "secretMasking": true,
+    "commandFiltering": true,
+    "humanInTheLoop": true
+  },
+  "cron": {
+    "implementationDays": 5
+  },
+  "runtime": {
+    "node": {
+      "type": "typescript"
+    }
+  }
+}
