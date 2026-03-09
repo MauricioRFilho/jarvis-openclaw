@@ -1,0 +1,31 @@
+{
+  "name": "jarvis-openclaw",
+  "version": "1.0.0",
+  "description": "Projeto de elite para automação e orquestração de sistemas, utilizando o protocolo Jarvis.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MauricioRFilho/jarvis-openclaw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MauricioRFilho/jarvis-openclaw/issues"
+  },
+  "homepage": "https://github.com/MauricioRFilho/jarvis-openclaw#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@types/node": "^25.3.5",
+    "axios": "^1.13.6",
+    "dotenv": "^17.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
