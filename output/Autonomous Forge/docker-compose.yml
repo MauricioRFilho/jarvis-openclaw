@@ -1,0 +1,85 @@
+version: '3.9'
+
+services:
+  agent:
+    build: .
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GEMINI_TOKEN=${GEMINI_TOKEN}
+      - GROQ_TOKEN=${GROQ_TOKEN}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+    depends_on:
+      - node
+    ports:
+      - "3000:3000"
+
+  node:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+    command: tail -f /dev/null
+
+  groq:
+    image: ghcr.io/langchain/llms:groq
+    environment:
+      - GROQ_TOKEN=${GROQ_TOKEN}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+
+  gemini:
+    image: ghcr.io/langchain/llms:gemini
+    environment:
+      - GEMINI_TOKEN=${GEMINI_TOKEN}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+
+  vercel:
+    image: vercel/fly
+    environment:
+      - FLY_API_TOKEN=${FLY_API_TOKEN}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+
+  git:
+    image: git:latest
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+    command: tail -f /dev/null
+
+  tailwind:
+    image: tailwindcss/tailwindcss
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+
+  eslint:
+    image: eslint/eslint
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+
+  github-actions:
+    image: github/actions:latest
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./docs:/app/docs
+    command: tail -f /dev/null

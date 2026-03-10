@@ -2,35 +2,35 @@
   "name": "autonomous-forge",
   "version": "1.0.0",
   "description": "Autonomous Forge project",
-  "main": "src/agents/openclaw/OpenClaw.ts",
+  "main": "core/engine/ClawEngine.ts",
   "scripts": {
+    "start": "ts-node core/engine/ClawEngine.ts",
     "build": "tsc",
-    "start": "node build/src/agents/openclaw/OpenClaw.js",
-    "docker:build": "docker build -t autonomous-forge .",
-    "docker:run": "docker run -p 3000:3000 autonomous-forge"
+    "test": "jest",
+    "docker:build": "docker build -t autonomous-forge sandbox/docker",
+    "docker:run": "docker run -d --name autonomous-forge-container autonomous-forge"
   },
   "keywords": [],
-  "author": "MauricioOpenClaw",
+  "author": "",
   "license": "MIT",
   "dependencies": {
-    "@langchain/llms": "^0.0.28",
-    "@octokit/octokit": "^2.0.10",
-    "docker-js": "^1.2.3",
-    "express": "^4.18.2",
+    "@langchain/llms": "^0.0.25",
+    "@types/docker": "^20.10.11",
+    "@types/git": "^0.3.1",
+    "@types/node": "^18.11.18",
+    "docker": "^20.10.11",
+    "dotenv": "^16.0.3",
+    "github-api": "^1.0.1",
+    "jest": "^29.5.0",
+    "langchain": "^0.0.51",
+    "ts-node": "^10.9.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
-    "@types/docker-js": "^1.2.3",
-    "@types/express": "^4.17.13",
-    "@types/node": "^18.11.18"
+    "@types/jest": "^29.5.0"
   },
-  "config": {
-    "github": {
-      "token": "${GITHUB_TOKEN}",
-      "username": "MauricioOpenClaw"
-    },
-    "gemini": {
-      "apiKey": "${GEMINI_API_KEY}"
-    }
+  "jest": {
+    "testEnvironment": "node"
   }
 }

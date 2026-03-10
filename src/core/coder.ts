@@ -32,6 +32,8 @@ The project root contains these files: ${files.map(f => f.path).join(", ")}
 Guidelines:
 - Follow senior-level patterns.
 - Ensure the code is production-ready.
+- FULL AUTONOMY: Make decisions to ensure the best technical implementation.
+- LEGAL COMPLIANCE: Ensure all logic and data handling (especially PII) complies with Brazilian laws (LGPD).
 - Output ONLY the raw code. Do NOT enclose in markdown code blocks.
 - Do NOT include any explanations or comments outside the code.`;
 

@@ -2,14 +2,14 @@
   "backlog": [
     {
       "id": 1,
-      "name": "Setup Docker e permissões de API",
-      "description": "Setup do Docker e permissões de API (GitHub/Gemini)",
+      "name": "Setup do Docker e permissões de API",
+      "description": "Configurar o ambiente de execução e obter permissões de API para GitHub e Gemini",
       "dependencies": []
     },
     {
       "id": 2,
-      "name": "Configuração do System Prompt",
-      "description": "Configuração do System Prompt 'ClawSmith DNA'",
+      "name": "Configuração do System Prompt 'ClawSmith DNA'",
+      "description": "Definir o conjunto de regras e diretrizes para o agente",
       "dependencies": [
         1
       ]
@@ -17,7 +17,7 @@
     {
       "id": 3,
       "name": "Teste de geração do primeiro projeto",
-      "description": "Teste de geração do primeiro projeto (ex: Um CRUD de Alta Performance)",
+      "description": "Testar a geração de um projeto simples, como um CRUD de alta performance",
       "dependencies": [
         2
       ]
@@ -25,7 +25,7 @@
     {
       "id": 4,
       "name": "Ajuste do sistema de Failover",
-      "description": "Ajuste do sistema de Failover (Gemini -> Groq)",
+      "description": "Configurar o failover com Groq para tarefas rápidas de refatoração e linting",
       "dependencies": [
         3
       ]
@@ -33,150 +33,76 @@
     {
       "id": 5,
       "name": "Automação completa do Pipeline de Push",
-      "description": "Automação completa do Pipeline de Push",
+      "description": "Implementar a automação do pipeline de entrega, incluindo a criação de repositórios e envio de relatórios",
       "dependencies": [
         4
       ]
     },
     {
       "id": 6,
-      "name": "Ingestão de Briefing",
-      "description": "Interface simples onde Mauricio insere o architecture.md",
-      "dependencies": []
+      "name": "Implementação da ingestão de briefing",
+      "description": "Desenvolver a interface para ingestão de briefing e validação de escopo",
+      "dependencies": [
+        5
+      ]
     },
     {
       "id": 7,
-      "name": "Validação de Escopo",
-      "description": "O agente analisa se o projeto é viável e gera uma lista de tarefas",
+      "name": "Implementação da geração de código",
+      "description": "Desenvolver a funcionalidade de geração de código, incluindo scaffolding, core coding e UI generation",
       "dependencies": [
         6
       ]
     },
     {
       "id": 8,
-      "name": "Scaffolding",
-      "description": "Criação da estrutura de pastas (Clean Architecture)",
+      "name": "Implementação da qualidade e documentação",
+      "description": "Desenvolver a funcionalidade de teste, documentação e linting",
       "dependencies": [
         7
       ]
     },
     {
       "id": 9,
-      "name": "Core Coding",
-      "description": "Escrita dos arquivos .ts, .go, .py seguindo os padrões sênior de Mauricio",
+      "name": "Implementação da segurança",
+      "description": "Desenvolver a funcionalidade de segurança, incluindo secret masking, command filtering e human-in-the-loop",
       "dependencies": [
         8
-      ]
-    },
-    {
-      "id": 10,
-      "name": "UI Generation",
-      "description": "Implementação de Tailwind CSS com a paleta Stealth Architect",
-      "dependencies": [
-        9
-      ]
-    },
-    {
-      "id": 11,
-      "name": "Auto-Testing",
-      "description": "O agente deve escrever e rodar pelo menos 3 testes unitários críticos",
-      "dependencies": [
-        10
-      ]
-    },
-    {
-      "id": 12,
-      "name": "Docs",
-      "description": "Geração automática de README.md profissional e API_SPEC.md",
-      "dependencies": [
-        11
-      ]
-    },
-    {
-      "id": 13,
-      "name": "Linters",
-      "description": "Execução de ESLint/Prettier para garantir que o código não pareça 'gerado por máquina'",
-      "dependencies": [
-        12
-      ]
-    },
-    {
-      "id": 14,
-      "name": "GitHub Push",
-      "description": "Envio do código para MauricioOpenClaw/<nome-do-projeto>",
-      "dependencies": [
-        13
-      ]
-    },
-    {
-      "id": 15,
-      "name": "Final Report",
-      "description": "Envio de um relatório no Telegram/Discord de Mauricio com o link do repo pronto",
-      "dependencies": [
-        14
       ]
     }
   ],
   "structure": {
-    "name": "Autonomous Forge",
+    "name": "autonomous-forge",
     "folders": [
       {
         "name": "src",
         "folders": [
           {
-            "name": "agents",
-            "folders": [
-              {
-                "name": "openclaw",
-                "files": [
-                  {
-                    "name": "OpenClaw.ts",
-                    "content": "// Importações e configurações iniciais da biblioteca OpenClaw"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "services",
-            "folders": [
-              {
-                "name": "github",
-                "files": [
-                  {
-                    "name": "GitHubService.ts",
-                    "content": "// Implementação dos serviços de integração com o GitHub"
-                  }
-                ]
-              },
-              {
-                "name": "gemini",
-                "files": [
-                  {
-                    "name": "GeminiService.ts",
-                    "content": "// Implementação dos serviços de integração com o Gemini"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "utils",
+            "name": "agent",
             "files": [
               {
-                "name": "utils.ts",
-                "content": "// Funções de utilidade para o sistema"
+                "name": "index.ts",
+                "content": "// imports e configurações do agente"
+              }
+            ]
+          },
+          {
+            "name": "pipeline",
+            "files": [
+              {
+                "name": "index.ts",
+                "content": "// configurações do pipeline de entrega"
               }
             ]
           }
         ]
       },
       {
-        "name": "config",
+        "name": "tests",
         "files": [
           {
-            "name": "config.json",
-            "content": "{\"githubToken\": \"SEU_TOKEN_AQUI\"}"
+            "name": "index.ts",
+            "content": "// testes unitários e integração"
           }
         ]
       },
@@ -185,19 +111,19 @@
         "files": [
           {
             "name": "Dockerfile",
-            "content": "FROM node:latest\nCOPY . /app\nWORKDIR /app\nRUN npm install\nCMD [\"npm\", \"start\"]"
+            "content": "// configurações do Docker"
           }
         ]
       }
     ],
     "files": [
       {
-        "name": "package.json",
-        "content": "{\"name\": \"autonomous-forge\", \"version\": \"1.0.0\", \"scripts\": {\"start\": \"node src/main.ts\"}}"
+        "name": "README.md",
+        "content": "# Autonomous Forge\n// descrição do projeto"
       },
       {
-        "name": "README.md",
-        "content": "# Autonomous Forge"
+        "name": "package.json",
+        "content": "{\"name\": \"autonomous-forge\", \"version\": \"1.0.0\"}"
       }
     ]
   }
